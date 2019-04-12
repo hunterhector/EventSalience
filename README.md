@@ -43,7 +43,7 @@ python -m knowledge4ir.salience.prepare.corpus_hashing $sa_model_path/hash_conf.
 python -m knowledge4ir.salience.joint_center $sa_model_path/test_only.py --Main.test_in=salience/hashed_data.json --Main.test_out=salience/output.json
 ```
 
-# Standalone annotations:
+# Standalone annotations
 ## Event Annotations:
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/train.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/test.gz
@@ -52,7 +52,19 @@ http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/test.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/entity_data/train.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/entity_data/test.gz
 
+# Reproducing EMNLP experiments
+One can easily reproduce our experiments if the preprocessed data is ready. You will find how to obtain the preprocessed data in the laster sections. Once you have obtained that, you can use the [joint_center](https://github.com/xiongchenyan/KnowledgeIR/blob/master/knowledge4ir/salience/joint_center.py) script to conduct training and testing. Just simply specify one config file like the following:
+
+```
+python -m knowledge4ir.salience.joint_center conf_joint_kcrf_6+7_feature_masked_multi_kernel_type_0_event_label
+```
+
+All of our config file can be found at this [link](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/config/), the best performing model is [this one](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/config/multi_kernel/conf_joint_kcrf_6+7_feature_masked_multi_kernel_type_0_event_label)
+
+
 # Preprocessed data
+To run our experiments, we recommend using the preprocess data here.
+
 The preprocessed data (and features) without the original text can be found here:
 Train: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/train_no_text.gz
 Test: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/test_no_text.gz
@@ -68,6 +80,8 @@ bin/run_pipeline.sh salience edu.cmu.cs.lti.salience.annotators.SalienceDatasetT
 Note that 8 is the number of threads to be specified.
 
 ## Overview of Preprocessing
+It is possible to run all preprocessing on your own, but it is rather time consuming and complex, here we provide a general overview on how to do this.
+
 There are a couple of preprocessing tools used, most of them are assembled in the [CmuScript repository](https://github.com/hunterhector/cmu-script). You will find the prerequesite repositories in its README.
 
 We have also used [TagMe!](https://github.com/gammaliu/tagme) to tag the named entities. It is possible to use other taggers, but the output will vary.
