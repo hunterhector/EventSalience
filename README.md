@@ -18,12 +18,12 @@ http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/salience_model.tar
 The training and testing data are created from [Annotated NYT](https://catalog.ldc.upenn.edu/LDC2008T19), which is distributed by LDC. As restricted by the license, we only release the salience annotations that we generate:
 
 ## Instructions of Running the pretrain model
-Here is one way to run the pretrained model, some example can be found in another repository.
+Here is one way to run the pretrained model (i.e. Wikification using DBpedia, you can choose your own Wikification tool). DBpedia allows us to setup web services easily (https://github.com/dbpedia-spotlight/dbpedia-spotlight-model), so first let's set up the webservice following their instruction.
 
-First, you need to create Wikification data. Here I provide one example of using DBpedia to create the Wikification.
+We can then create Wikification data.
 You can obtain the freebase_map file [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/freebase_map.tsv)
 
-Assuming that the input data is stored at ```$input_data```.
+Assuming that the input data is stored at ```$input_data```. Use the script in this project to create wikification.
 
 ```
 en_spotlight_url=http://localhost:2222/en/rest/annotate
