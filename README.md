@@ -15,7 +15,9 @@ The following contains the joint Entity and Event salience detection model. Its 
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/salience_model.tar.gz
 
 ## Data
-The training and testing data are created from [Annotated NYT](https://catalog.ldc.upenn.edu/LDC2008T19), which is distributed by LDC. As restricted by the license, we only release the salience annotations that we generate:
+The training and testing data are created from [Annotated NYT](https://catalog.ldc.upenn.edu/LDC2008T19), which is distributed by LDC. As restricted by the license, we only relese the annotations and generated parses.
+
+The data split can be found [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/split/)
 
 ## Instructions of Running the pretrain model
 Here is one way to run the pretrained model (i.e. Wikification using DBpedia, you can choose your own Wikification tool). DBpedia allows us to setup web services easily (https://github.com/dbpedia-spotlight/dbpedia-spotlight-model), so first let's set up the webservice following their instruction.
@@ -77,9 +79,9 @@ http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/embeddi
 To obtain the text file corresponding to the preprocess data, run the following command in the cmu-script root directory:
 
 ```
-bin/run_pipeline.sh salience edu.cmu.cs.lti.salience.annotators.SalienceDatasetTextOnlyWriter /Path_to_Annotated_NYT_LDC2008T19/data /Path_for_Text_output_of_LDC2008T19/ 8
+bin/run_pipeline.sh salience edu.cmu.cs.lti.salience.annotators.SalienceDatasetTextOnlyWriter /Path_to_Annotated_NYT_LDC2008T19/data /Path_for_Text_output_of_LDC2008T19/ all_docs_with_abstract.lst 8
 ```
-Note that 8 is the number of threads to be specified.
+Note that 8 is the number of threads to be specified. all_docs_with_abstract.lst is the file listing all docs that have an abstract, which can be taken [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/split/all_docs_with_abstract.lst).
 
 ## Overview of Preprocessing
 It is possible to run all preprocessing on your own, but it is rather time consuming and complex, here we provide a general overview on how to do this.
