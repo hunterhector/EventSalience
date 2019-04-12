@@ -54,24 +54,14 @@ http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/test.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/entity_data/train.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/entity_data/test.gz
 
-# Reproducing EMNLP experiments
-One can easily reproduce our experiments if the preprocessed data is ready. You will find how to obtain the preprocessed data in the laster sections. Once you have obtained that, you can use the [joint_center](https://github.com/xiongchenyan/KnowledgeIR/blob/master/knowledge4ir/salience/joint_center.py) script to conduct training and testing. Just simply specify one config file like the following:
-
-```
-python -m knowledge4ir.salience.joint_center conf_joint_kcrf_6+7_feature_masked_multi_kernel_type_0_event_label
-```
-
-All of our config file can be found at this [link](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/config/), the best performing model is [this one](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/config/multi_kernel/conf_joint_kcrf_6+7_feature_masked_multi_kernel_type_0_event_label)
-
-
 # Preprocessed data
 To run our experiments, we recommend using the preprocess data here.
 
-The preprocessed data (and features) without the original text can be found here:
+The preprocessed data (and features) without the original text (i.e. I have replaced the fields "bodyText" and "abstract" with empty strings) can be found here:
 
-   Train: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/train_no_text.gz
+   Pre-Train: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/train_no_text.gz
    
-   Test: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/test_no_text.gz
+   Pre-Test: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/test_no_text.gz
 
 The pretrained word (and entity) embeddings can be found here:
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/embedding/
@@ -82,6 +72,35 @@ To obtain the text file corresponding to the preprocess data, run the following 
 bin/run_pipeline.sh salience edu.cmu.cs.lti.salience.annotators.SalienceDatasetTextOnlyWriter /Path_to_Annotated_NYT_LDC2008T19/data /Path_for_Text_output_of_LDC2008T19/ all_docs_with_abstract.lst 8
 ```
 Note that 8 is the number of threads to be specified. all_docs_with_abstract.lst is the file listing all docs that have an abstract, which can be taken [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/split/all_docs_with_abstract.lst).
+
+This command will create two folders (abstract and body), that contains the original news text. You can now fill in the empty slots in the Pre-Train and Pre-Test by matching the document name, the texts in these two folders correspond to the "abstract" and "bodyText" field respecitvely.
+
+# Reproducing EMNLP experiments
+One can easily reproduce our experiments if the preprocessed data is ready. Assume you get the data (train_no_text.json.gz), and fill in the empty bodyText and abstract slots using the text created above into a file name "train_with_text.json.gz" (well, you will have write some simple match code yourself here.)
+
+Now you can hash the training data to integer form for processing.
+
+```
+python -m knowledge4ir.salience.prepare.corpus_hashing config/conf_hash_event_train train_with_text.json.gz train_data.json.gz
+```
+
+Similarly, for test data:
+
+```
+python -m knowledge4ir.salience.prepare.corpus_hashing config/conf_hash_event_train test_with_text.json.gz test_data.json.gz
+```
+
+Once you have obtained that, you can use the [joint_center](https://github.com/xiongchenyan/KnowledgeIR/blob/master/knowledge4ir/salience/joint_center.py) script to conduct training and testing. Just simply specify one config file like the following:
+
+```
+python -m knowledge4ir.salience.joint_center conf_joint_kcrf_6+7_feature_masked_multi_kernel_type_0_event_label
+```
+
+Configs used for hashing can be found [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/config/hash/)
+
+All of our config file can be found at this [link](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/config/), the best performing model is [this one](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/config/multi_kernel/conf_joint_kcrf_6+7_feature_masked_multi_kernel_type_0_event_label).
+
+Please remember to adapt the configs to your own system paths.
 
 ## Overview of Preprocessing
 It is possible to run all preprocessing on your own, but it is rather time consuming and complex, here we provide a general overview on how to do this.
