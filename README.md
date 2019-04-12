@@ -1,29 +1,85 @@
 # Event Salience
-This repository host code and pointers of models to our EMNLP 2018 paper: Automatic Event Salience Identification
+This repository host code and pointers of models to our EMNLP 2018 paper: [Automatic Event Salience Identification](https://aclweb.org/anthology/D18-1154)
 
 ## Code
-The following is the snapshot of the Code Base:
-
+The following is the snapshot of the Code Base at the time of publication.
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/KnowledgeIR-master.zip
 
+The original code base is being actively developed:
+https://github.com/xiongchenyan/KnowledgeIR
+
+The most relevant code directory is [here](https://github.com/xiongchenyan/KnowledgeIR/tree/master/knowledge4ir/salience)
+
 ## Model
+The following contains the joint Entity and Event salience detection model. Its performance on events is slightly lower than what is reported on the paper (because the additional effort require to predict entity salience). Yet it is quite useful since it can predict both event salience and entity salience at the same time.
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/salience_model.tar.gz
 
 ## Data
-As restricted by the license, we release the annotations only:
+The training and testing data are created from [Annotated NYT](https://catalog.ldc.upenn.edu/LDC2008T19), which is distributed by LDC. As restricted by the license, we only release the salience annotations that we generate:
 
-Event Annotations:
+## Instructions of Running the pretrain model
+Here is one way to run the pretrained model, some example can be found in another repository.
 
+First, you need to create Wikification data. Here I provide one example of using DBpedia to create the Wikification.
+You can obtain the freebase_map file [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/freebase_map.tsv)
+
+Assuming that the input data is stored at ```$input_data```.
+
+```
+en_spotlight_url=http://localhost:2222/en/rest/annotate
+python -m event.salience.wikification $en_spotlight_url $input_data wiki freebase_map.tsv dbpedia
+```
+
+Now go back to cmu-script and then create featurized input data.
+```
+cd ../cmu-script
+bin/run_pipeline.sh salience edu.cmu.cs.lti.pipeline.SalienceInputPipeline $input_data wiki salience txt /embeddings/joint_corpus.emb_128d
+```
+
+Go back to DDSemantics and then run salience. ```$sa_model_path``` should point to the model path you just downloaded.
+```
+cd ../DDSemantics
+python -m knowledge4ir.salience.prepare.corpus_hashing $sa_model_path/hash_conf.py --CorpusHasher.corpus_in=salience/data.json --CorpusHasher.out_name=salience/hashed_data.json
+python -m knowledge4ir.salience.joint_center $sa_model_path/test_only.py --Main.test_in=salience/hashed_data.json --Main.test_out=salience/output.json
+```
+
+# Standalone annotations:
+## Event Annotations:
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/train.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/test.gz
 
-Entity Annotations:
-
+## Entity Annotations:
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/entity_data/train.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/entity_data/test.gz
 
-## Instructions
-Upcoming!
+# Preprocessed data
+The preprocessed data (and features) without the original text can be found here:
+Train: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/train_no_text.gz
+Test: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/test_no_text.gz
 
-## Sample Input
-Upcoming!
+The pretrained word (and entity) embeddings can be found here:
+http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/embedding/
+
+To obtain the text file corresponding to the preprocess data, run the following command in the cmu-script root directory:
+
+```
+bin/run_pipeline.sh salience edu.cmu.cs.lti.salience.annotators.SalienceDatasetTextOnlyWriter /Path_to_Annotated_NYT_LDC2008T19/data /Path_for_Text_output_of_LDC2008T19/ 8
+```
+Note that 8 is the number of threads to be specified.
+
+## Overview of Preprocessing
+There are a couple of preprocessing tools used, most of them are assembled in the [CmuScript repository](https://github.com/hunterhector/cmu-script). You will find the prerequesite repositories in its README.
+
+We have also used [TagMe!](https://github.com/gammaliu/tagme) to tag the named entities. It is possible to use other taggers, but the output will vary.
+
+The overall process is quite complex and tedious, it is much easier to use the preprocessed data released above. Here I am only listing the general steps, hopefully the class are self-explantory:
+
+1. Read the NYT corpus into the UIMA format using the following class:
+    - [AnnotatedNytReader](https://github.com/hunterhector/uima-base-tools/blob/master/corpus-reader/src/main/java/edu/cmu/cs/lti/collection_reader/AnnotatedNytReader.java)
+1. Run tagging with TagMe to produce tagged results in JSON.
+1. Read the parsed NYT data produced in the previous step, and add the TagMe result with:
+    - [NytPreprocessPipeline](https://github.com/hunterhector/cmu-script/blob/master/salience/src/main/java/edu/cmu/cs/lti/pipeline/NytPreprocessPipeline.java)
+1. Create the dataset with the following class:
+    - [SalienceDataPreparer](https://github.com/hunterhector/cmu-script/blob/master/salience/src/main/java/edu/cmu/cs/lti/pipeline/SalienceDataPreparer.java)
+
+
