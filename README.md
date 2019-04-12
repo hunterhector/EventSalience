@@ -67,8 +67,9 @@ To run our experiments, we recommend using the preprocess data here.
 
 The preprocessed data (and features) without the original text can be found here:
 
-Train: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/train_no_text.gz
-Test: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/test_no_text.gz
+   Train: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/train_no_text.gz
+   
+   Test: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/test_no_text.gz
 
 The pretrained word (and entity) embeddings can be found here:
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/preprocess/embedding/
