@@ -25,7 +25,7 @@ Here is one way to run the pretrained model (i.e. Wikification using DBpedia, yo
 We can then create Wikification data.
 You can obtain the freebase_map file [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/freebase_map.tsv)
 
-Assuming that the input data is stored at ```$input_data```. Use the script in this project to create wikification.
+Assuming that the input data is stored at ```$input_data```, which is a directory contains a list of plain text documents (must with ".txt" extensions). Use the following script in this project to create wikification.
 
 ```
 en_spotlight_url=http://localhost:2222/en/rest/annotate
