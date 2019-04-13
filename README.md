@@ -113,7 +113,9 @@ The overall process is quite complex and tedious, it is much easier to use the p
 
 1. Read the NYT corpus into the UIMA format using the following class:
     - [AnnotatedNytReader](https://github.com/hunterhector/uima-base-tools/blob/master/corpus-reader/src/main/java/edu/cmu/cs/lti/collection_reader/AnnotatedNytReader.java)
-1. Run tagging with TagMe to produce tagged results in JSON.
+1. Parsing steps:
+    1. Run parses and frame based event detector with [RunOnlyPipeline](https://github.com/hunterhector/cmu-script/blob/master/event-coref/src/main/java/edu/cmu/cs/lti/event_coref/pipeline/RunOnlyPipeline.java)
+    1. Run tagging with TagMe to produce tagged results in JSON.
 1. Read the parsed NYT data produced in the previous step, and add the TagMe result with:
     - [NytPreprocessPipeline](https://github.com/hunterhector/cmu-script/blob/master/salience/src/main/java/edu/cmu/cs/lti/pipeline/NytPreprocessPipeline.java)
 1. Create the dataset with the following class:
