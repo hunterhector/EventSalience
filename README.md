@@ -12,12 +12,13 @@ Further, the whole knowledge IR code base is being actively developed, but you p
 https://github.com/xiongchenyan/KnowledgeIR
 
 # Model
-Two models are shared here, see the instructions below on how to use them:
+Two models are shared here, see the instructions [below](https://github.com/hunterhector/EventSalience/blob/master/README.md#instructions-of-running-the-pretrain-model) on how to use them:
 
 The Event salience model: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_salience.model (Note, not zipped)
 This model is the one reported in the paper.
 
 The joint Event Entity model: http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/salience_model.tar.gz (Note, this is a tarball)
+
 The performance on events is slightly lower than what is reported on the paper (because the additional effort require to predict entity salience). Yet it is quite useful since it can predict both event salience and entity salience at the same time.
 
 # Data
@@ -47,10 +48,12 @@ bin/run_pipeline.sh salience edu.cmu.cs.lti.salience.annotators.SalienceDatasetT
 ```
 Note that 8 is the number of threads to be specified. all_docs_with_abstract.lst is the file listing all docs that have an abstract, which can be taken [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/split/all_docs_with_abstract.lst).
 
-This command will create two folders (abstract and body), that contains the original news text. You can now fill in the empty slots in the Pre-Train and Pre-Test by matching the document name, the texts in these two folders correspond to the "abstract" and "bodyText" field respecitvely.
+This command will create two folders (abstract and body), that contains the original news text. You can now fill in the empty slots in the Pre-Train and Pre-Test by matching the document name, the texts in these two folders correspond to the "abstract" and "bodyText" field respecitvely. After you add them back, let's name them ``train_with_text.json.gz`` and ``test_with_text.json.gz`` respectively
 
 
 ## Standalone annotations
+These are annotation only, if you intend to start without using the preprocessing data, these could be useful.
+
 #### Event Annotations:
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/train.gz
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/test.gz
