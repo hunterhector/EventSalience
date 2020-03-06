@@ -45,6 +45,14 @@ python -m knowledge4ir.salience.prepare.corpus_hashing $sa_model_path/hash_conf.
 python -m knowledge4ir.salience.joint_center $sa_model_path/test_only.py --Main.test_in=salience/hashed_data.json --Main.test_out=salience/output.json
 ```
 
+# Results of the EMNLP paper
+
+In the following link you can find the raw output of different models (including ablation) that are listed in the EMNLP table:
+
+http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/results_emnlp
+
+Where the [KCM.json](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/results_emnlp/kcm/KCM.json) is the best reported result (output of the full model).
+
 # Standalone annotations
 ## Event Annotations:
 http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/event_data/train.gz
