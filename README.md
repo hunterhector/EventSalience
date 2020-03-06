@@ -48,7 +48,43 @@ bin/run_pipeline.sh salience edu.cmu.cs.lti.salience.annotators.SalienceDatasetT
 ```
 Note that 8 is the number of threads to be specified. all_docs_with_abstract.lst is the file listing all docs that have an abstract, which can be taken [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/split/all_docs_with_abstract.lst).
 
-This command will create two folders (abstract and body), that contains the original news text. You can now fill in the empty slots in the Pre-Train and Pre-Test by matching the document name, the texts in these two folders correspond to the "abstract" and "bodyText" field respecitvely. After you add them back, let's name them ``train_with_text.json.gz`` and ``test_with_text.json.gz`` respectively
+This command will create two folders (abstract and body), that contains the original news text. You can now fill in the empty slots in the Pre-Train and Pre-Test by matching the document name, the texts in these two folders correspond to the "abstract" and "bodyText" field respecitvely. For example, for document 1415448, add the text to the following fields:
+
+```
+{
+  "bodyText": "ADD THE bodyText Back here!",
+  "docno": "1415448",
+  "spot": {
+    "bodyText": [
+      {
+        "wiki_name": "Yes (band)",
+        "score": 0.104681134,
+        "loc": [
+          0,
+          1
+        ],
+        "surface": "Yes",
+        "feature": {
+          "featureArray": [
+            0.4030839632718701,
+            0,
+            4,
+            0,
+            3
+          ],
+```
+
+```
+  },
+  "title": "Liberty Loses a Game It Did n't Need to Win .",
+  "abstract": "[ADD THE Abstract Back here!]"
+}
+```
+
+
+
+After you add them back, let's name them ``train_with_text.json.gz`` and ``test_with_text.json.gz`` respectively
+
 
 
 ## Standalone annotations
