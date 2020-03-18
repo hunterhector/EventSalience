@@ -126,6 +126,9 @@ Similarly, for test data:
 python -m knowledge4ir.salience.prepare.corpus_hashing config/conf_hash_event_train test_with_text.json.gz test_data.json.gz
 ```
 
+You can obtain the vocabulary referred in the hash config [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_salience/vocab)
+
+
 Once you have obtained that, you can use the [joint_center](https://github.com/xiongchenyan/KnowledgeIR/blob/master/knowledge4ir/salience/joint_center.py) script to conduct training and testing. Just simply specify one config file like the following:
 
 ```
