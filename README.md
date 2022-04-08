@@ -189,4 +189,5 @@ The overall process is quite complex and tedious, it is much easier to use the p
 1. Create the dataset with the following class:
     - [SalienceDataPreparer](https://github.com/hunterhector/cmu-script/blob/master/salience/src/main/java/edu/cmu/cs/lti/pipeline/SalienceDataPreparer.java)
 
+We use a list of Event Evoking Frame curated manually, the can be obtained [here](http://accra.sp.cs.cmu.edu/~zhengzhl/downloads/event_evoking_frames.txt).
 
